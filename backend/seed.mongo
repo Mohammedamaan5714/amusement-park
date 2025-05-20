@@ -1,0 +1,28 @@
+// Switch to amusementpark database
+use amusementpark
+
+// Create users collection and insert sample users
+db.users.insertMany([
+  { username: "alice", email: "alice@example.com", password: "password123", role: "customer" },
+  { username: "bob", email: "bob@example.com", password: "password456", role: "customer" },
+  { username: "admin", email: "admin@amusement.com", password: "adminpass", role: "admin" }
+])
+
+// Create rides collection and insert sample rides
+db.rides.insertMany([
+  { name: "Roller Coaster", description: "Exciting high-speed ride", price: 20.0 },
+  { name: "Ferris Wheel", description: "Enjoy the view from above", price: 10.0 },
+  { name: "Haunted House", description: "Spooky fun for all ages", price: 15.0 }
+])
+
+// Create tickets collection and insert a sample ticket
+db.tickets.insertMany([
+  {
+    userId: "alice",
+    entryFee: 50.0,
+    rides: ["Roller Coaster", "Ferris Wheel"],
+    food: ["Burger", "Soda"],
+    totalPrice: 80.0,
+    purchaseDate: new Date()
+  }
+])
