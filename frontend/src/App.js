@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import './App.css';
 import Chatbot from './components/Chatbot';
 import TicketBookingForm from './components/TicketBookingForm';
+import RidesList from './components/RidesList'; // Added import for RidesList
 import ApiTest from './components/ApiTest';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -35,6 +36,7 @@ function AppContent() {
                 </div>
                 <div className="flex items-center space-x-1">
                   <Link to="/" className="py-5 px-3 text-white hover:text-blue-200">Home</Link>
+                  <Link to="/rides" className="py-5 px-3 text-white hover:text-blue-200">Our Rides</Link> {/* Added link for RidesList */}
                   <Link to="/booking" className="py-5 px-3 text-white hover:text-blue-200">Book Tickets</Link>
                   <Link to="/chatbot" className="py-5 px-3 text-white hover:text-blue-200">Chat Assistance</Link>
                   <Link to="/api-test" className="py-5 px-3 text-white hover:text-blue-200">API Test</Link>
@@ -66,6 +68,7 @@ function AppContent() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/rides" element={<RidesList />} /> {/* Added route for RidesList */}
             <Route path="/" element={
               <div className="text-center py-10">
                 <h1 className="text-4xl font-bold text-blue-600 mb-4">Welcome to Our Amusement Park</h1>

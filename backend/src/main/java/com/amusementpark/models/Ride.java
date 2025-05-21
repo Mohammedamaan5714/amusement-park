@@ -11,6 +11,20 @@ public class Ride {
     private String id;
     private String name;
     private String description;
-    private double price;
-    // Add more fields as needed
+    private String category; // "THRILL", "FAMILY", "KIDS", "THEMED"
+    private String imageUrl;
+    private boolean isActive;
+    
+    // Default constructor
+    public Ride() {
+        this.isActive = true;
+    }
+    
+    // Constructor with fields
+    public Ride(String name, String description, String category) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.isActive = true;
+    }
 }

@@ -2,42 +2,49 @@ package com.amusementpark.controllers;
 
 import com.amusementpark.models.Ride;
 import com.amusementpark.repositories.RideRepository;
+import com.amusementpark.services.RideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/rides")
 public class RideController {
     @Autowired
     private RideRepository rideRepository;
+    
+    @Autowired
+    private RideService rideService;
 
     @GetMapping("")
     public List<Ride> getAllRides() {
         return rideRepository.findAll();
     }
-
-    // Seed initial rides if not present
-    @PostMapping("/seed")
-    public ResponseEntity<?> seedRides() {
-        if (rideRepository.count() == 0) {
-            Ride r1 = new Ride();
-            r1.setName("Roller Coaster");
-            r1.setDescription("Exciting high-speed ride");
-            r1.setPrice(20.0);
-            Ride r2 = new Ride();
-            r2.setName("Ferris Wheel");
-            r2.setDescription("Enjoy the view from above");
-            r2.setPrice(10.0);
-            Ride r3 = new Ride();
-            r3.setName("Haunted House");
-            r3.setDescription("Spooky fun for all ages");
-            r3.setPrice(15.0);
-            rideRepository.saveAll(Arrays.asList(r1, r2, r3));
-            return ResponseEntity.ok("Rides seeded");
-        }
-        return ResponseEntity.ok("Rides already exist");
+    
+    /**
+     * Get rides by category
+     * @param category The ride category
+     * @return List of rides in the category
+     */
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<Ride>> getRidesByCategory(@PathVariable String category) {
+        return ResponseEntity.ok(rideService.getRidesByCategory(category));
+    }
+    
+    /**
+     * Get rides grouped by category
+     * @return Map of category to list of rides
+     */
+    @GetMapping("/grouped")
+    public ResponseEntity<Map<String, List<Ride>>> getRidesGroupedByCategory() {
+        List<Ride> allRides = rideService.getAllRides();
+        
+        Map<String, List<Ride>> groupedRides = allRides.stream()
+                .collect(Collectors.groupingBy(Ride::getCategory));
+        
+        return ResponseEntity.ok(groupedRides);
     }
 }
